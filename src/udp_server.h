@@ -8,12 +8,14 @@
 #include "exception.h"
 #include "udp_base.h"
 
+
 class UdpServer : public UdpBase {
 
   public:
 	UdpServer(int port);
 	~UdpServer();
 	void recved_pack(struct udp_pack, struct sockaddr_in addr);
+	void user_exits_call(struct udp_pack);
 };
 
 #endif

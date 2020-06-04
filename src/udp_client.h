@@ -9,9 +9,12 @@
 
 class UdpClient : public UdpBase {
   public:
+	uint32 login_status;
+  public:
 	UdpClient(const char* ip, int port);
 	~UdpClient();
 	void login(uint32 userid);
+	void p2p_login(uint32 userid);
 	void quit_login(uint32 userid);
 	void p2p_start();	//p2p2 开始
 	void recved_pack(struct udp_pack, struct sockaddr_in addr);

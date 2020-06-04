@@ -55,7 +55,7 @@ typedef unsigned long int       uint64;
 #define _TASK_EXEIT_PACK_ 9  //包不存在
 #define _TASK_END_ 11 //结束数据包
 #define _TASK_USER_EXITE_ 12  //用户未登录
-#define _TASK_EXIT_READ_THEAD_ 13 //结束线程
+#define _TASK_VERIFICATION_P2P_ 13 //验证p2p 包
 #define _TASK_HEARTBEAT_ 14  //心跳包
 
 #define _TASK_TEXT_ 10	//文本

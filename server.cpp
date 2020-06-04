@@ -18,14 +18,13 @@ void tick(int signo) {
 
 int main() {
 
-	signal(SIGALRM, tick);
-	alarm(1); // 1s的周期心跳
+	// signal(SIGALRM, tick);
+	// alarm(1); // 1s的周期心跳
 
 	udp_base = new UdpServer(9002);
 	udp_base->create_send_thread();
-	udp_base->create_read_thread();
+	// udp_base->create_read_thread();
 	udp_base->recv_start();
-
 
 	delete udp_base;
 	udp_base = NULL;
