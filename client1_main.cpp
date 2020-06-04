@@ -5,7 +5,7 @@
 
 int main() {
 
-	UdpClient * udp_base = new UdpClient("127.0.0.1", 9002);
+	UdpClient * udp_base = new UdpClient("172.20.10.9", 9002);
 	udp_base->create_send_thread();
 	udp_base->create_read_thread();
 	// udp_base->login(2345);

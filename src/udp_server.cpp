@@ -26,11 +26,13 @@ void UdpServer::user_exits_call(struct udp_pack) {	//某个用户端不存在
 }
 
 void UdpServer::recved_pack(struct udp_pack recv_pack, struct sockaddr_in from_addr) {
+	printf("%s\n", "xxxddd");
 	if (recv_pack.task == _TASK_LOGIN_) {	//登录操作
 		struct extranet_addr *login_addr =  this->save_addr(recv_pack.from_id, from_addr, recv_pack.type);
 		memset(recv_pack.data, 0x00, _UDP_DATA_SIZE_);
 		memcpy(recv_pack.data, login_addr, sizeof(struct extranet_addr));
 		recv_pack.task = _TASK_LOGIN_SUCCESS_;
+		Exception::save_info("_TASK_LOGIN_");
 		this->psp_send(&recv_pack, from_addr);
 	} else if (recv_pack.task == _TASK_QUITE_) { //退出登录
 		Exception::save_info("_TASK_QUITE_");

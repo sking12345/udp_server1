@@ -144,9 +144,18 @@ void UdpClient::recved_pack(struct udp_pack recved_pack, struct sockaddr_in from
 		Exception::save_info("_TASK_VERIFICATION_P2P_");
 		return;
 	}
-
-	uint64 unique = recved_pack.time * 10000 + recved_pack.unique;
 	int data_pack_num = this->get_pack_num(recved_pack.max_size);
+	if (this->verify_recv_log == false || data_pack_num <= 1) {
+		this->recved_data(recved_pack.data, recved_pack.max_size, recved_pack.task, recved_pack.from_id, 0x00);
+		recved_pack.send_id = recved_pack.from_id;
+		recved_pack.from_id = this->user_id;
+		recved_pack.task = _TASK_END_;
+		this->p2p_send(&recved_pack, from_addr);
+		this->p2p_send(&recved_pack, from_addr);
+		return;
+	}
+	uint64 unique = recved_pack.time * 10000 + recved_pack.unique;
+
 	uint8 *recv_data = NULL;
 	pthread_mutex_lock(&(this->read_mutex));
 	std::map<uint32, std::map<uint64, uint8*> >::iterator recv_map_list_iter;
