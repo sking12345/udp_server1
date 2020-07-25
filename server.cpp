@@ -15,7 +15,7 @@ int main()
 	memory_mgt * mgt = new memory_mgt();
 	const char* str  = "xxddxxddxxddxxddxxddxxddxxddxxddxxddxxdds";
 	printf("%s\n", "start");
-	sleep(5);
+	sleep(1);
 	printf("%s\n", "---");
 	for (int i = 0; i < 1000000; ++i)
 	{
@@ -24,14 +24,14 @@ int main()
 		// mgt->delete_memory(i);
 	}
 	printf("%s\n","start free" );
-	sleep(5);
+	sleep(1);
 	for (int i = 0; i < 1000000; ++i)
 	{
 		mgt->delete_memory(i);
 	}
 	printf("%s\n","end free" );
 	delete mgt;
-	sleep(5);
+	sleep(1);
 	return 0;
 }
 
