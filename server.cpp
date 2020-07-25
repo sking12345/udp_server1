@@ -1,38 +1,37 @@
 #include <iostream>
-#include <signal.h>
-#include "src/exception.h"
-#include "src/udp_base.h"
-#include "src/udp_server.h"
+#include <string>
+#include "core/p2p_udp.h"
+#include "core/types.h"
+#include "core/memory_mgt.h"
+#include <stdlib.h>
+#include <string.h>
 
 
 
-static UdpBase * udp_base = NULL;
 
+int main()
+{
 
-void tick(int signo) {
-	if (udp_base != NULL) {
-		udp_base->execute_timer();
+	memory_mgt * mgt = new memory_mgt();
+	const char* str  = "xxddxxddxxddxxddxxddxxddxxddxxddxxddxxdds";
+	printf("%s\n", "start");
+	sleep(5);
+	printf("%s\n", "---");
+	for (int i = 0; i < 1000000; ++i)
+	{
+		mgt->new_memory(strlen(str),i,(uint8*)str);
+		
+		// mgt->delete_memory(i);
 	}
-	alarm(1);
-}
-
-int main() {
-
-	// signal(SIGALRM, tick);
-	// alarm(1); // 1s的周期心跳
-
-	udp_base = new UdpServer(9002);
-	udp_base->create_send_thread();
-	// udp_base->create_read_thread();
-	udp_base->recv_start();
-
-	delete udp_base;
-	udp_base = NULL;
-
-
+	printf("%s\n","start free" );
+	sleep(5);
+	for (int i = 0; i < 1000000; ++i)
+	{
+		mgt->delete_memory(i);
+	}
+	printf("%s\n","end free" );
+	delete mgt;
+	sleep(5);
 	return 0;
 }
-
-
-
 
