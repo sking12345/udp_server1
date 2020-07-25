@@ -90,24 +90,43 @@ uint32 p2p_base::set_from_id(uint32 from_id){
 	return 1;
 }
 
-uint32 p2p_base::send_p2p_tcp(uint32 client_key,uint8 * data,uint32 data_size,uint8 task){
+
+
+uint32 p2p_base::send_p2p_tcp(uint32 client_id,uint32 alias,uint8 task){
+
+	memory_mgt *mgt = memory_mgt::getInstance();
+	struct memory_struct *m_struct = mgt->find_memory(alias);
+	struct  wait_send  wait_send = {0};
+	wait_send.status 	= 0;
+	wait_send.version 	= _VERSION_;
+	wait_send.type 		= P2P_TCP;
+	wait_send.send_id 	= client_id;
+	wait_send.from_id 	= this->from_id;
+	wait_send.task 		= task;
+	wait_send.data_size = m_struct->data_size;
+	wait_send.data_ptr = m_struct->data;
+	
+	this->wait_sended_list.insert();
 
 	return 1;
 }
-uint32 p2p_base::send_p2p_udp(uint32 client_key,uint8 * data,uint32 data_size,uint8 task){
+uint32 p2p_base::send_p2p_udp(uint32 client_id,uint32 alias,uint8 task){
 
 	return 1;
 }
 
-uint32 p2p_base::send_psp_tcp(uint32 client_key,uint8 * data,uint32 data_size,uint8 task){
+uint32 p2p_base::send_psp_tcp(uint32 client_id,uint32 alias,uint8 task){
 
 	return 1;
 }
 
-uint32 p2p_base::send_psp_udp(uint32 client_key,uint8 * data,uint32 data_size,uint8 task){
+uint32 p2p_base::send_psp_udp(uint32 client_id,uint32 alias,uint8 task){
 
 	return 1;
 }
+
+
+
 
 /*
 * tcp发送给服务器
@@ -115,7 +134,7 @@ uint32 p2p_base::send_psp_udp(uint32 client_key,uint8 * data,uint32 data_size,ui
 * data_size: 数据大小
 * task:任务编码
 */
-uint32 p2p_base::send_server_tcp(uint8 * data,uint32 data_size,uint8 task){
+uint32 p2p_base::send_server_tcp(uint32 alias,uint8 task){
 
 
 	return 1;
@@ -126,7 +145,7 @@ uint32 p2p_base::send_server_tcp(uint8 * data,uint32 data_size,uint8 task){
 * @param data_size: 数据大小
 * @param task:任务编码
 */
-uint32 p2p_base::send_server_udp(uint8 * data,uint32 data_size,uint8 task){
+uint32 p2p_base::send_server_udp(uint32 alias,uint8 task){
 
 	return 1;
 }

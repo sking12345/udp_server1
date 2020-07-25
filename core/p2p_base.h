@@ -17,7 +17,7 @@
 #include <map>
 #include <list>
 #include "types.h"
-
+#include "memory_mgt.h"
 using namespace std;
 
 class p2p_base
@@ -37,11 +37,11 @@ public:
 	
 	map< uint32,struct listeners_info > client_map;	//存放本机作为服务器监听时,链接到本机的socket信息	
 	list< struct  wait_send* > wait_send_list;
-
 	list< struct  wait_send* >::iterator wait_send_list_iter;	//发送数据的当前位置
 
 	list< struct  wait_send* > wait_sended_list;	//已发送完数据的队列；
 	list< struct recve_data* > recve_data_list;
+
 
 public:
 	p2p_base();
@@ -52,13 +52,21 @@ public:
 	uint32 listener_tcp(uint32 port);	//监听某个端口，用于将本机作为服务器，tcp，监听
 	uint32 listener_udp(uint32 port);	//监听某个端口，用于将本机作为服务器 udp，监听
 	uint32 set_from_id(uint32 from_id);
-	uint32 send_p2p_tcp(uint32 client_key,uint8 * data,uint32 data_size,uint8 task);
-	uint32 send_p2p_udp(uint32 client_key,uint8 * data,uint32 data_size,uint8 task);
-	uint32 send_psp_tcp(uint32 client_key,uint8 * data,uint32 data_size,uint8 task);
-	uint32 send_psp_udp(uint32 client_key,uint8 * data,uint32 data_size,uint8 task);
 
-	uint32 send_server_tcp(uint8 * data,uint32 data_size,uint8 task);	
-	uint32 send_server_udp(uint8 * data,uint32 data_size,uint8 task);
+	uint32 send_p2p_tcp(uint32 client_key,uint32 alias,uint8 task);
+	uint32 send_p2p_udp(uint32 client_key,uint32 alias,uint8 task);
+	uint32 send_psp_tcp(uint32 client_key,uint32 alias,uint8 task);
+	uint32 send_psp_udp(uint32 client_key,uint32 alias,uint8 task);
+
+	uint32 send_p2p_tcp(uint32 client_key,string alias,uint8 task);
+	uint32 send_p2p_udp(uint32 client_key,string alias,uint8 task);
+	uint32 send_psp_tcp(uint32 client_key,string alias,uint8 task);
+	uint32 send_psp_udp(uint32 client_key,string alias,uint8 task);
+
+	uint32 send_server_tcp(uint32 alias,uint8 task);	
+	uint32 send_server_udp(uint32 alias,uint8 task);
+	uint32 send_server_tcp(string alias,uint8 task);	
+	uint32 send_server_udp(string alias,uint8 task);
 
 };
 

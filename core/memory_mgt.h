@@ -27,11 +27,11 @@ private:
 	map < uint32, void* > int_map;
 	uint64 malloced_size;	//已分配了多大内存
 	uint64 malloced_num;	//分配了多少次数
-	
-
+	memory_mgt(){};
 public:
-	// static memory_mgt* getInstance();
-	memory_mgt();
+	static memory_mgt* getInstance();
+	static void end_memory();
+
 	~memory_mgt();
 
 	/**
@@ -45,6 +45,7 @@ public:
 
 	void delete_memory(string alias);	//释放内存
 	void delete_memory(uint32 alias);	//释放内存
+	
 };
 
 #endif

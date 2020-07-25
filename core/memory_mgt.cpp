@@ -1,20 +1,17 @@
 #include "memory_mgt.h"
 
-// memory_mgt* memory_mgt::instance = NULL;
+memory_mgt* memory_mgt::instance = NULL;
 
-// memory_mgt *memory_mgt::getInstance(){
-// 	if (instance == NULL) {
-//         instance = new memory_mgt();
-//     }
-//     return instance;
-// }
-memory_mgt::memory_mgt()
-{
-
+memory_mgt *memory_mgt::getInstance(){
+	if (instance == NULL) {
+        instance = new memory_mgt();
+    }
+    return instance;
 }
+
 memory_mgt::~memory_mgt()
 {
-	
+	printf("%s\n", "~memory_mgt");	
 }
 
 struct memory_struct *memory_mgt::new_memory(uint32 size,string alias,uint8 *data,uint8 type)
@@ -104,6 +101,12 @@ void memory_mgt::delete_memory(uint32 alias)
 		this->int_map.erase(iter);
 	}
 	
+}
+
+void memory_mgt::end_memory()
+{
+	delete instance;
+	instance = NULL;
 }
 
 

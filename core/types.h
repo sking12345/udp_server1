@@ -29,6 +29,11 @@ typedef unsigned long int       uint64;
 #define DATA_TYPE_PSP 0x02		//服务器转发
 #define DATA_TYPE_PS 0x03		//支发送给服务器
 
+#define P2P_TCP 0x01
+#define P2P_UDP 0x02
+#define PSP_TCP 0x03
+#define PSP_UDP 0x04
+
 #define _VERSION_ 0x01		//版本
 
 
@@ -42,8 +47,9 @@ typedef struct  wait_send	//待发送队列
 	uint8  	task;		//任务编号
 	uint16 	unique;		//系统序列
 	uint32 	send_num;	//已发数据次数，如果对方接受到一次数据包，则+1
+
 	uint32 	data_size;	//数据大小
-	uint8 	data[0];	//数据
+	uint8 	*data_ptr;	//数据
 }WAIT_SEND_LIST,*PWAIT_SEND_LIST;
 
 typedef struct recve_data //接收数据包	，
