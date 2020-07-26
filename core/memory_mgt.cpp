@@ -2,109 +2,100 @@
 
 memory_mgt* memory_mgt::instance = NULL;
 
-memory_mgt *memory_mgt::getInstance(){
+memory_mgt *memory_mgt::getInstance() {
 	if (instance == NULL) {
-        instance = new memory_mgt();
-    }
-    return instance;
+		instance = new memory_mgt();
+	}
+	return instance;
 }
 
-memory_mgt::~memory_mgt()
-{
-	printf("%s\n", "~memory_mgt");	
+memory_mgt::~memory_mgt() {
+	printf("%s\n", "~memory_mgt");
 }
 
-struct memory_struct *memory_mgt::new_memory(uint32 size,string alias,uint8 *data,uint8 type)
-{
-	struct memory_struct *ptr = NULL;
+void *memory_mgt::new_memory(uint32 size, string alias, uint8 *data, uint8 type) {
+	void *ptr = NULL;
 	map < string, void* >::iterator iter = this->str_map.find(alias);
-	if(iter == this->str_map.end()){
-		ptr = (struct memory_struct*)malloc(sizeof(struct memory_struct)+size);
-	}else{
-		ptr = (struct memory_struct *)iter->second;
-		if(type == true)	//直接修改内存大小覆盖
-		{
+	if (iter == this->str_map.end()) {
+		ptr = (void*)malloc(size);
+	} else {
+		ptr = (void *)iter->second;
+		if (type == true) {	//直接修改内存大小覆盖
 			free(ptr);
 			ptr = NULL;
-			ptr = (struct memory_struct*)malloc(sizeof(struct memory_struct)+size);
-		}else{
+			ptr = (void*)malloc(size);
+		} else {
 			return NULL;
 		}
 	}
-	memset(ptr,0,sizeof(struct memory_struct)+size);
+	memset(ptr, 0, size);
 
-	if(data!=NULL)
-	{
-		memcpy(ptr->data,data,size);
+	if (data != NULL) {
+		memcpy(ptr, data, size);
 	}
-	this->str_map.insert( pair< string, void* >(alias,(void*)ptr));
+	this->str_map.insert( pair< string, void* >(alias, (void*)ptr));
 	return ptr;
 }
-struct memory_struct *memory_mgt::new_memory(uint32 size,uint32 alias,uint8 *data,uint8 type)
-{
-	struct memory_struct *ptr = NULL;
+void *memory_mgt::new_memory(uint32 size, uint32 alias, uint8 *data, uint8 type) {
+	void *ptr = NULL;
 	map < uint32, void* >::iterator iter = this->int_map.find(alias);
-	if(iter == this->int_map.end()){
-		ptr = (struct memory_struct*)malloc(sizeof(struct memory_struct)+size);
-	}else{
-		ptr = (struct memory_struct *)iter->second;
-		if(type == true)	//直接修改内存大小覆盖
-		{
+	if (iter == this->int_map.end()) {
+		ptr = (void*)malloc(size);
+	} else {
+		ptr = (void *)iter->second;
+		if (type == true) {	//直接修改内存大小覆盖
 			free(ptr);
 			ptr = NULL;
-			ptr = (struct memory_struct*)malloc(sizeof(struct memory_struct)+size);
-		}else{
+			ptr = (void*)malloc(size);
+		} else {
 			return NULL;
 		}
 	}
-	memset(ptr,0,sizeof(struct memory_struct)+size);
-	if(data!=NULL)
-	{
-		memcpy(ptr->data,data,size);
+	memset(ptr, 0, size);
+	if (data != NULL) {
+		memcpy(ptr, data, size);
 	}
-	this->int_map.insert(pair<uint32,struct memory_struct*>(alias,ptr));
+	this->int_map.insert(pair<uint32, void*>(alias, ptr));
 	return ptr;
 }
 
-struct memory_struct *memory_mgt::find_memory(string alias){
+
+void *memory_mgt::find_memory(string alias) {
 	map < string, void* >::iterator iter = this->str_map.find(alias);
-	if(iter == this->str_map.end()){
+	if (iter == this->str_map.end()) {
 		return NULL;
 	}
-	return (struct memory_struct*)iter->second;
+	return iter->second;
 }
-struct memory_struct *memory_mgt::find_memory(uint32 alias){
+void *memory_mgt::find_memory(uint32 alias) {
 	map < uint32, void* >::iterator iter = this->int_map.find(alias);
-	if(iter == this->int_map.end()){
+	if (iter == this->int_map.end()) {
 		return NULL;
 	}
-	return (struct memory_struct*)iter->second;
+	return iter->second;
 }
 
-void memory_mgt::delete_memory(string alias)
-{
+void memory_mgt::delete_memory(string alias) {
 	map < string, void* >::iterator iter = this->str_map.find(alias);
-	if(iter != this->str_map.end()){
-		struct memory_struct *ptr = (struct memory_struct*)iter->second;
+	if (iter != this->str_map.end()) {
+		void *ptr = (void*)iter->second;
 		free(ptr);
 		ptr = NULL;
 		this->str_map.erase(iter);
 	}
 }
-void memory_mgt::delete_memory(uint32 alias)
-{
+void memory_mgt::delete_memory(uint32 alias) {
 	map < uint32, void* >::iterator iter = this->int_map.find(alias);
-	if(iter != this->int_map.end()){
-		struct memory_struct *ptr = (struct memory_struct*)iter->second;
+	if (iter != this->int_map.end()) {
+		void *ptr = (void*)iter->second;
 		free(ptr);
 		ptr = NULL;
 		this->int_map.erase(iter);
 	}
-	
+
 }
 
-void memory_mgt::end_memory()
-{
+void memory_mgt::end_memory() {
 	delete instance;
 	instance = NULL;
 }
