@@ -29,6 +29,9 @@ typedef unsigned long int       uint64;
 #define DATA_TYPE_PSP 0x02		//服务器转发
 #define DATA_TYPE_PS 0x03		//支发送给服务器
 
+#define TCP_SERVER 0x01
+#define UDP_SERVER 0x02
+
 /*
 * 用于发送数据的线程
  */
@@ -67,6 +70,7 @@ typedef struct  wait_send {	//待发送队列
 
 typedef struct recve_data { //接收数据包	，
 	uint8 type;	//tcp: udp
+	uint8 status;		// 0x00: 数据不完整,0x01数据完整
 	uint32 	from_id;
 	uint8  	task;		//任务编号
 	// uint32 	receive_num; //接受包数
