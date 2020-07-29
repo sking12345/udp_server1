@@ -33,7 +33,7 @@ class socekt_server : public socket_base {
 	virtual void recved_data(struct recve_data* recve_ptr, struct sockaddr_in addr);	//接受到的数据包
 	uint32 create_tcp(uint32 port);
 	uint32 create_udp(uint32 port);
-	uint8 push_recve(struct pack *pack);	//将数据存入接受结构力
+	uint8 push_recve(struct pack *pack,);	//将数据存入接受结构力
 	uint8 start();
 
 };
