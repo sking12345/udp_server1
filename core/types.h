@@ -43,7 +43,7 @@ typedef unsigned long int       uint64;
 #define _VERSION_ 0x01		//版本
 #define PACK_DATA_SIZE (1470 - 32*4)
 
-typedef struct pack {	//分包时的数据结构
+typedef struct udp_pack {	//分包时的数据结构
 	uint8 	version;		//版本号
 	uint8 	type;		// tcp,udp
 	uint32 	send_id;		//发送给谁的id，//-1:不转发
@@ -53,7 +53,19 @@ typedef struct pack {	//分包时的数据结构
 	uint16 	sequence;
 	uint16 	data_size;	//数据大小
 	uint8 	data[PACK_DATA_SIZE];
-} PACK, *PPACK;
+} UDP_PACK, *PUDP_PACK;
+
+typedef struct tcp_pack {	//分包时的数据结构
+	uint8 	version;		//版本号
+	uint8 	type;		// tcp,udp
+	uint32 	send_id;		//发送给谁的id，//-1:不转发
+	uint32 	from_id;		//来自谁的id
+	uint8  	task;		//任务编号,接受端根据任务编号判断该数据包应该怎么处理
+	uint16 	unique;		//系统序列
+	uint16 	sequence;
+	uint16 	data_size;	//数据大小
+	uint8 	data[0];
+} TCP_PACK, *PTCP_PACK;
 
 typedef struct  wait_send {	//待发送队列
 	uint8 	status;			//用于线程发送数据判断, 0:继续发送,1:查看接受对方回复信息的时间,如果大于WAIT_REPLY_TIME 则回调某个方法,

@@ -14,8 +14,8 @@ int main() {
 	/*
 	 * udp 服务
 	 */
-	socket_server * server = new socket_server(9009, TCP_SERVER);
-	server->start();
+	socket_server * server = new socket_server();
+
 	sleep(5);
 
 	return 0;
